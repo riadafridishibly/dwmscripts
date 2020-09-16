@@ -1,0 +1,16 @@
+Print
+    screenshot
+
+super + l
+    lock
+
+super + @space
+    changelayout
+
+XF86AudioMute
+    pamixer -t
+XF86AudioRaiseVolume
+    pamixer -i 5; dunstify -t 700 -r "7296431" "Volume" `pamixer --get-volume-human`
+XF86AudioLowerVolume
+    pamixer -d 5; dunstify -t 700 -r "7296431" "Volume" `pamixer --get-volume-human`
+
