@@ -1,0 +1,75 @@
+#!/bin/bash
+
+SCREEN_SHOT_DIR="$HOME/Pictures/dwm"
+SCREEN_SHOT_ID="112233"
+NOTIFICATION_NAME="Screenshot"
+
+notify() {
+    dunstify -t 700 -r $SCREEN_SHOT_ID $NOTIFICATION_NAME "$1"
+}
+
+capture_full_screen() {
+    dt=$(date '+%y%m%d-%H%M-%S')
+    maim "$SCREEN_SHOT_DIR/pic-full-$dt.png"
+    notify "Fullscreen Captured"
+}
+
+capture_full_screen_copy() {
+    pkill rofi
+    maim | xclip -selection clipboard -t image/png
+    notify "Fullscreen Copied"
+}
+
+capture_region() {
+    dt=$(date '+%y%m%d-%H%M-%S')
+    maim -s "$SCREEN_SHOT_DIR/pic-selected-$dt.png"
+    notify "Region Captured"
+}
+
+capture_region_copy() {
+    maim -s | xclip -selection clipboard -t image/png
+    notify "Region Copied"
+}
+
+get_options() {
+    echo "  Capture Full Screen  (copy)"
+    echo "  Capture Full Screen  (save)"
+    echo "  Capture Region  (copy)"
+    echo "  Capture Region  (save)"
+    # echo "  Capture Window  (copy)"
+    # echo "  Capture Window  (save)"
+}
+
+
+# if the screenshot directory does not exist, create it
+if [ ! -d "$SCREEN_SHOT_DIR" ]; then
+    mkdir -p $SCREEN_SHOT_DIR
+fi
+
+
+
+choice=$( (get_options) | rofi -dmenu -i -matching fuzzy -p "Screenshot" )
+
+# If user has not picked anything, exit
+if [[ -z "${choice// }" ]]; then
+    exit 1
+fi
+
+# this sleep is required, If it's not here rofi window also gets captured
+# may be this is the composition thing. I don't know a better fix, at least
+# for now
+sleep 0.5
+
+main() {
+    case $choice in
+        "  Capture Full Screen  (copy)") capture_full_screen_copy;;
+        "  Capture Full Screen  (save)") capture_full_screen;;
+        "  Capture Region  (copy)") capture_region_copy;;
+        "  Capture Region  (save)") capture_region;;
+    esac
+
+    set -e
+}
+
+main &
+exit 0

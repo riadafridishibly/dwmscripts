@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CLayout=$(setxkbmap -query | grep us | awk '{print $2}')
+
+if [ "$CLayout" = "us" ]; then
+    setxkbmap -layout bd -variant probhat
+else
+    setxkbmap -layout us
+fi
