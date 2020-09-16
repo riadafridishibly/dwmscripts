@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#layout
+get_layout() {
+    layout=$(setxkbmap -query | grep layout | awk '{print $2}')
+    printf "$layout"
+}
+
+#volume
+get_volume() {
+    vol=$(pamixer --get-volume-human)
+    if [ "$vol" = "muted" ]; then
+        printf "vol: $vol"
+    else
+        printf "vol: $vol%"
+    fi
+}
+
+#date
+get_date() {
+    dt=$(date "+%a %d %b %Y %I:%M%p")
+    printf "$dt"
+}
+
+xsetroot -name " / $(get_layout) / $(get_volume) / $(get_date) / "

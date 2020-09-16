@@ -5,12 +5,12 @@ super + l
     lock
 
 super + @space
-    changelayout
+    changelayout; statusbar
 
 XF86AudioMute
-    pamixer -t
+    pamixer -t; statusbar
 XF86AudioRaiseVolume
-    pamixer -i 5; dunstify -t 700 -r "7296431" "Volume" `pamixer --get-volume-human`
+    pamixer -i 5; dunstify -t 700 -r "7296431" "Volume" `pamixer --get-volume-human`; statusbar
 XF86AudioLowerVolume
-    pamixer -d 5; dunstify -t 700 -r "7296431" "Volume" `pamixer --get-volume-human`
+    pamixer -d 5; dunstify -t 700 -r "7296431" "Volume" `pamixer --get-volume-human`; statusbar
 
