@@ -2,7 +2,7 @@ Print
     screenshot
 
 super + l
-    lock
+    setxkbmap -layout us; statusbar; lock
 
 super + @space
     changelayout; statusbar
